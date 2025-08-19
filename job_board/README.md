@@ -20,7 +20,7 @@ A simple Job Board API built with **Django REST Framework**. This project allows
 
 ---
 
-## Tech Stack 🛠️
+## Tech
 - **Backend:** Django, Django REST Framework  
 - **Database:** SQLite (default, can switch to PostgreSQL)  
 - **Authentication:** JWT or Session-based authentication  

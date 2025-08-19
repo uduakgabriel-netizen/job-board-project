@@ -1,70 +1,69 @@
 from django.shortcuts import render
 from rest_framework import generics, permissions
-from .models import user, job, Application, company
-from .serializers import userSerializer, jobSerializer, ApplicationSerializer, companySerializer
+from .models import User, Job, Application, Company
+from .serializers import UserSerializer, JobSerializer, ApplicationSerializer, CompanySerializer
 
- 
 class UserListCreateView(generics.ListCreateAPIView):
-    queryset = user.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    # No perform_create needed here unless you are setting a field on the user model, which is unusual.
+    # The serializer itself handles user creation.
 
-
-class userDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = user.objects.all()
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
-    
+# ---------------------------------------------------------------------------------------------------
+
 class JobListCreateView(generics.ListCreateAPIView):
-    queryset = job.objects.all()
+    queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     def perform_create(self, serializer):
+        # Assuming your 'job' model has a foreign key field named 'posted_by'
         serializer.save(posted_by=self.request.user)
         
-
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = job.objects.all()
+    queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
-    
-    
+# ---------------------------------------------------------------------------------------------------
+
 class ApplicationListCreateView(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     def perform_create(self, serializer):
-        serializer.save(Application=self.request.user)
-
+        # Assuming your 'Application' model has a foreign key field named 'applicant' or similar
+        serializer.save(applicant=self.request.user)
 
 class ApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
-    
+# ---------------------------------------------------------------------------------------------------
+
 class CompanyListCreateView(generics.ListCreateAPIView):
-    queryset = company.objects.all()
+    queryset = Company.objects.all()
     serializer_class = CompanySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     def perform_create(self, serializer):
-        serializer.save()
-        
-        
+        # Assuming the company is linked to the user who created it
+        serializer.save(owner=self.request.user) # Example: If company has a foreign key field 'owner'
+    
 class CompanyDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = company.objects.all()
+    queryset = Company.objects.all()
     serializer_class = CompanySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     def perform_update(self, serializer):
+        # This is fine, but you could also add logic to check permissions
         serializer.save()
-        
-        
