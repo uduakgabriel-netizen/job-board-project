@@ -1,22 +1,30 @@
-from django.urls import path
+
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from .views import (
-    JobListCreateView,
-    JobDetailView,
-    UserListCreateView,
-    UserDetailView,
-    ApplicationListCreateView,
-    ApplicationDetailView,
-    CompanyListCreateView,
-    CompanyDetailView
+    JobViewSet,
+    ApplicationViewSet,
+    CompanyViewSet,
+    RegisterView,
+    LoginView,
+    LogoutView,
+    ProfileView,
 )
 
+# Router setup
+router = DefaultRouter()
+router.register(r'jobs', JobViewSet, basename='jobs')
+router.register(r'applications', ApplicationViewSet, basename='applications')
+router.register(r'companies', CompanyViewSet, basename='companies')
+
+# URL patterns
 urlpatterns = [
-    path("job/", JobListCreateView.as_view(), name="job-list-create"),
-    path('job/<int:pk>/', JobDetailView.as_view(), name='job-details'),
-    path("user/", UserListCreateView.as_view(), name="user-list-create"),
-    path('user/<int:pk>/', UserDetailView.as_view(), name='user-details'),
-    path("application/", ApplicationListCreateView.as_view(), name="application-list-create"),
-    path('application/<int:pk>/', ApplicationDetailView.as_view(), name='application-details'),
-    path("company/", CompanyListCreateView.as_view(), name="company-list-create"),
-    path('company/<int:pk>/', CompanyDetailView.as_view(), name='company-details'),
+    # Auth endpoints
+    path('auth/register/', RegisterView.as_view(), name='register'),
+    path('auth/login/', LoginView.as_view(), name='login'),
+    path('auth/logout/', LogoutView.as_view(), name='logout'),
+    path('auth/profile/', ProfileView.as_view(), name='profile'),
+
+    # Router endpoints
+    path('', include(router.urls)),
 ]
