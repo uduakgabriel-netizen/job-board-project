@@ -21,7 +21,7 @@ class User(AbstractUser):
 # Company
 
 class Company(models.Model):
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name="company")
+    # owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name="company")
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     website = models.URLField(blank=True, null=True)
@@ -39,6 +39,8 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    ## i have some error here please check it later
 
 
 

@@ -2,9 +2,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
+    Job,
     JobViewSet,
     ApplicationViewSet,
     CompanyViewSet,
+    CategoryViewSet,
     RegisterView,
     LoginView,
     LogoutView,
@@ -16,6 +18,9 @@ router = DefaultRouter()
 router.register(r'jobs', JobViewSet, basename='jobs')
 router.register(r'applications', ApplicationViewSet, basename='applications')
 router.register(r'companies', CompanyViewSet, basename='companies')
+router.register(r'categories', CategoryViewSet, basename='categories')
+
+
 
 # URL patterns
 urlpatterns = [

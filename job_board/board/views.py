@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
-from .serializers import UserSerializer, JobSerializer, ApplicationSerializer, CompanySerializer
-from .models import Job, Application, Company
+from .serializers import UserSerializer, JobSerializer, ApplicationSerializer, CompanySerializer,CategorySerializer
+from .models import Job, Application, Company,Category
 from rest_framework import viewsets
 
 User = get_user_model()
@@ -18,7 +18,7 @@ User = get_user_model()
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny] 
 
 
 
@@ -146,3 +146,9 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+        
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    
+    
