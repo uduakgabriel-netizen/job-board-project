@@ -48,15 +48,16 @@ class CategorySerializer(serializers.ModelSerializer):
 # Job Serializer
 
 class JobSerializer(serializers.ModelSerializer):
-    employer = serializers.ReadOnlyField(source='employer.username')
+    # employer = serializers.ReadOnlyField(source='employer.username')
     company = CompanySerializer(read_only=True)
     category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Job
+        read_only_fields = ["employer"]
         fields = [
             'id', 'title', 'description', 'location', 'salary',
-            'is_remote', 'created_at', 'employer', 'company', 'category'
+            'is_remote', 'created_at',  'company', 'category'
         ]
 
 
