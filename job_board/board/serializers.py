@@ -44,33 +44,41 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
-
-# Job Serializer
-
 class JobSerializer(serializers.ModelSerializer):
-    # employer = serializers.ReadOnlyField(source='employer.username')
-    company = CompanySerializer(read_only=True)
-    category = CategorySerializer(read_only=True)
+    employer = serializers.ReadOnlyField(source="employer.username")
 
     class Meta:
         model = Job
-        read_only_fields = ["employer"]
         fields = [
-            'id', 'title', 'description', 'location', 'salary',
-            'is_remote', 'created_at',  'company', 'category'
+            "id",
+            "title",
+            "description",
+            "location",
+            "salary",
+            "is_remote",
+            "created_at",
+            "company",
+            "category",
+            "employer",
         ]
-
+        read_only_fields = ["id", "created_at", "employer"]
 
 
 # Application Serializer
 
+
+
 class ApplicationSerializer(serializers.ModelSerializer):
-    applicant = serializers.ReadOnlyField(source='applicant.username')
-    job = serializers.ReadOnlyField(source='job.title')
+    applicant = serializers.ReadOnlyField(source="applicant.username")
 
     class Meta:
         model = Application
         fields = [
-            'id', 'job', 'applicant', 'cover_letter',
-            'status', 'applied_at'
+            "id",
+            "job",
+            "applicant",
+            "cover_letter",
+            "status",
+            "applied_at",
         ]
+        read_only_fields = ["id", "applicant", "status", "applied_at"]

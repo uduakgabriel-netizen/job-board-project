@@ -89,23 +89,25 @@ class IsEmployer(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.role == "employer"
 
-
-
-
-class JobViewSet(viewsets.ModelViewSet):
-    queryset = Job.objects.all()
-    serializer_class = JobSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def perform_create(self, serializer):
-        serializer.save(employer=self.request.user)
-
     
     
 class IsJobSeeker(permissions.BasePermission):
     """Only Job Seekers can apply for jobs."""
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.role == "job_seeker"
+
+class JobViewSet(viewsets.ModelViewSet):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    
+    def get_permissions(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return [IsEmployer()]
+        return [permissions.AllowAny()]
+
+ 
+    def perform_create(self, serializer):
+        serializer.save(employer=self.request.user)
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):
@@ -123,8 +125,9 @@ class ApplicationViewSet(viewsets.ModelViewSet):
             return [IsJobSeeker()]
         return [permissions.IsAuthenticated()]
 
+
     def perform_create(self, serializer):
-        serializer.save(job_id=self.kwargs["job_pk"], applicant=self.request.user)
+        serializer.save(applicant=self.request.user)
 
     def get_queryset(self):
         user = self.request.user

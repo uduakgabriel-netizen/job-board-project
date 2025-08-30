@@ -1,83 +1,91 @@
-# Job Board API  
+    Job Board API
 
-A simple Job Board API built with **Django REST Framework**. This project allows users to register, log in, manage profiles, post jobs, apply for jobs, and manage companies. It’s designed as an MVP (Minimum Viable Product), but can be extended into a full-featured platform like Upwork or Indeed.  
+A RESTful API built with Django REST Framework for managing jobs, applications, and users. Employers can post jobs, job seekers can apply, and admins manage the platform.
 
----
+    Features
 
-## Features 
-- User registration & authentication (via **JWT**).  
-- Separate profiles for **Job Seekers** and **Employers**.  
-- Employers can create and manage job postings.  
-- Job seekers can browse jobs and submit applications.  
-- Company profiles management.  
-- CRUD (Create, Read, Update, Delete) operations for jobs, applications, and companies.  
-- API endpoints powered by Django REST Framework.  
+JWT Authentication (Login, Register, Refresh)
 
----
+Roles: Admin, Employer, Job Seeker
 
-## Entity Relationship Diagram (ERD) 
-![ERD](./docs/erd.png)  
-*(Add the ERD image you created here by saving it into a `docs/` folder.)*  
+Employers: Create & manage jobs
 
----
+Job Seekers: Browse & apply for jobs
 
-## Tech
-- **Backend:** Django, Django REST Framework  
-- **Database:** SQLite (default, can switch to PostgreSQL)  
-- **Authentication:** JWT (via `djangorestframework-simplejwt`)  
-- **Tools:** Python, Pipenv/venv for environment management  
+Applications linked to jobs and users
 
----
+    Tech Stack
 
-## API Endpoints 📌  
+Backend: Django 5, DRF
 
-### 🔑 Authentication (JWT)  
-- `POST /api/auth/register/` – Register a new user  
-- `POST /api/auth/login/` – Login user (returns JWT access & refresh tokens)  
-- `POST /api/auth/logout/` – Logout user (blacklists token)  
-- `GET /api/auth/profile/` – Get authenticated user profile  
-- `PUT /api/auth/profile/` – Update authenticated user profile  
+Auth: SimpleJWT
 
----
+Database: SQLite (default)
 
-### 💼 Jobs
-- `GET /api/jobs/` – List all jobs (with optional filters like title, location, category)  
-- `POST /api/jobs/` – Create a new job (Employers only)  
-- `GET /api/jobs/<id>/` – Retrieve job details  
-- `PUT /api/jobs/<id>/` – Update job (Employer only)  
-- `DELETE /api/jobs/<id>/` – Delete job (Employer only)  
+Deployment Ready: PythonAnywhere / Render / Heroku
 
----
+    Main Endpoints
 
-### 📄 Applications
-- `POST /api/jobs/<id>/apply/` – Apply to a job (Job Seeker only)  
-- `GET /api/applications/` – List applications of the authenticated user  
-- `GET /api/applications/<id>/` – Retrieve application details  
-- `PUT /api/applications/<id>/` – Update application status (Employer only)  
-- `DELETE /api/applications/<id>/` – Withdraw application (Job Seeker only)  
+Auth
 
----
+POST /api/register/ → Register
 
-### 🏢 Companies
-- `GET /api/companies/` – List all companies  
-- `POST /api/companies/` – Create a new company (Employer only)  
-- `GET /api/companies/<id>/` – Retrieve company details  
-- `PUT /api/companies/<id>/` – Update company profile (Employer only)  
-- `DELETE /api/companies/<id>/` – Delete company (Employer only)  
+POST /api/token/ → Login (JWT)
 
----
+POST /api/token/refresh/ → Refresh token
 
-### 📂 Categories
-- `GET /api/categories/` – List all categories  
-- `POST /api/categories/` – Create a category (Admin only)  
-- `PUT /api/categories/<id>/` – Update a category (Admin only)  
-- `DELETE /api/categories/<id>/` – Delete a category (Admin only)  
+Jobs
 
----
+GET /api/jobs/ → List jobs
 
-## Installation & Setup 
+POST /api/jobs/ → Create job (Employer)
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/job-board-api.git
-   cd job-board-api
+GET /api/jobs/{id}/ → Job details
+
+Applications
+
+POST /api/jobs/{job_id}/applications/ → Apply (Job Seeker)
+
+GET /api/applications/ → View applications
+
+    Setup (Local)
+git clone https://github.com/your-username/job-board-api.git
+cd job-board-api
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+
+API runs at  http://127.0.0.1:8000/
+
+ Deployment (PythonAnywhere)
+
+Create a new PythonAnywhere account.
+
+Upload project code (via GitHub or manual upload).
+
+Open a Bash console and set up venv:
+
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+
+
+Go to Web tab → Add new web app → Manual config (Django).
+
+Point WSGI configuration file to your project’s wsgi.py.
+
+Reload web app → Visit your deployed API! 
+
+Roles
+
+Admin: Manage via /admin/
+
+Employer: Post jobs
+
+Job Seeker: Apply to jobs

@@ -13,6 +13,7 @@ from .views import (
     ProfileView,
 )
 
+
 # Router setup
 router = DefaultRouter()
 router.register(r'jobs', JobViewSet, basename='jobs')
