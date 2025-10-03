@@ -1,4 +1,4 @@
-    Job Board API
+ Job Board API
 
 A RESTful API built with Django REST Framework for managing jobs, applications, and users. Employers can post jobs, job seekers can apply, and admins manage the platform.
 

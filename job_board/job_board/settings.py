@@ -42,6 +42,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'board',
     'rest_framework',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.linkedin_oauth2',
+]
+SITE_ID = 1
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',   # default
+    'allauth.account.auth_backends.AuthenticationBackend',  # for allauth
 ]
 
 MIDDLEWARE = [
@@ -53,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'job_board.urls'
@@ -128,12 +142,7 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = 'static/'
-STORAGES = {
-   
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -149,3 +158,27 @@ AUTH_USER_MODEL="board.User"
 #     "ROTATE_REFRESH_TOKENS": False,
 #     "BLACKLIST_AFTER_ROTATION": True,
 # }
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    },
+    'linkedin_oauth2': {
+        'SCOPE': [
+            'r_emailaddress',
+            'r_liteprofile',
+        ],
+        'PROFILE_FIELDS': [
+            'id',
+            'first-name',
+            'last-name',
+            'email-address',
+        ],
+    }
+}
+SITE_ID = 1 

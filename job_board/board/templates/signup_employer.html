@@ -1,0 +1,57 @@
+{% load socialaccount %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employer Signup | Job Board</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/employer.css' %}">
+</head>
+<body class="employer-signup">
+  <div class="signup-container">
+    <h1>Employer Sign Up</h1>
+
+<div class="social-login">
+  <p>Or sign up with:</p>
+  <a href="{% provider_login_url 'google' %}" class="google-btn">Sign up with Google</a>
+  <a href="{% provider_login_url 'linkedin_oauth2' %}" class="linkedin-btn">Sign up with LinkedIn</a>
+</div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" name="company_name" placeholder="Company Name" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="contact_person" placeholder="Contact Person Full Name" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Business Email Address" required>
+      </div>
+      <div class="form-group">
+        <input type="tel" name="phone" placeholder="Phone Number" required>
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Create Password" required>
+      </div>
+      <div class="form-group">
+        <select name="industry" required>
+          <option value="">Select Industry</option>
+          <option value="tech">Technology</option>
+          <option value="finance">Finance</option>
+          <option value="education">Education</option>
+          <option value="health">Healthcare</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+      <button type="submit">Create Employer Account</button>
+    </form>
+
+    <div class="login-link">
+      Already have an account? <a href="{% url 'login' %}">Log in here</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobBoard - Welcome</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1 class="fade-in">Find Your Dream Job or Hire Top Talent</h1>
+      <p class="slide-up">
+        Welcome to <b>JobBoard</b> — built for <b>small & big businesses</b>, connecting
+        <span class="highlight">employers</span> and 
+        <span class="highlight">job seekers</span> in one powerful platform.
+      </p>
+      {% comment %} <a href="{% url 'signup' %}" class="btn pulse">Enroll Now</a> {% endcomment %}
+      <a href="{% url 'enroll' %}" class="btn">Enroll Now</a>
+
+    </div>
+  </section>
+</body>
+</html>

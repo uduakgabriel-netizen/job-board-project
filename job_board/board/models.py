@@ -23,7 +23,7 @@ class User(AbstractUser):
 class Company(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name="company")
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True) 
     website = models.URLField(blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
 

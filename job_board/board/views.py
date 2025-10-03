@@ -1,5 +1,4 @@
 
-
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,7 +6,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer, JobSerializer, ApplicationSerializer, CompanySerializer,CategorySerializer
 from .models import Job, Application, Company,Category
-from rest_framework import viewsets
+from rest_framework import viewsets 
+from django.shortcuts import render
 
 User = get_user_model()
 
@@ -15,12 +15,29 @@ User = get_user_model()
 
 # Register View
 
+def index(request):
+    return render(request,"index.html")
+
+
+def signup(request):
+    return render(request,"signup.html")
+
+def enroll(request):
+    return render(request,"enroll.html")
+
+def signup_seeker(request):
+    return render(request,"signup_seeker.html")
+
+
+def signup_employer(request):
+    return render(request,"signup_employer.html")
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny] 
 
-
+ 
 
 # Login View (JWT)
 
@@ -156,4 +173,5 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     
-    
+def __view(request):
+    return render(request, 'index.html')

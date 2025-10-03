@@ -1,0 +1,190 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f9f9f9;
+  color: #333;
+  height: 100vh;
+}
+
+/* Container split layout */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Left Section */
+.left {
+  flex: 1;
+  background: url('../images/signup-bg.jpg') no-repeat center center/cover;
+  position: relative;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left .overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 400px;
+  text-align: left;
+  animation: fadeInLeft 1.2s ease-in-out;
+}
+
+.left h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.left p {
+  margin-bottom: 15px;
+}
+
+.left ul {
+  list-style: none;
+  line-height: 1.8;
+}
+
+.left ul li::before {
+  content: "✔ ";
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+/* Right Section */
+.right {
+  flex: 1;
+  background: #fff;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: fadeInRight 1.2s ease-in-out;
+}
+
+.right h2 {
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  color: #222;
+  text-align: center;
+}
+
+/* Form Styling */
+form {
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group select {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+  outline: none;
+}
+
+/* Checkboxes */
+.checkboxes {
+  margin: 15px 0 20px;
+  font-size: 14px;
+}
+
+.checkboxes label {
+  display: block;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.checkboxes a {
+  color: #ff6b6b;
+  text-decoration: none;
+}
+
+.checkboxes a:hover {
+  text-decoration: underline;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+  background: #e55353;
+}
+
+/* Animations */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left, .right {
+    flex: none;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+  }
+
+  .left .overlay {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .form-group {
+    flex-direction: column;
+  }
+}

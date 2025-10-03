@@ -23,13 +23,16 @@ router.register(r'categories', CategoryViewSet, basename='categories')
 
 
 
+
 # URL patterns
 urlpatterns = [
     # Auth endpoints
+    
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', LoginView.as_view(), name='login'),
     path('auth/logout/', LogoutView.as_view(), name='logout'),
     path('auth/profile/', ProfileView.as_view(), name='profile'),
+    path('accounts/', include('allauth.urls')),
 
     # Router endpoints
     path('', include(router.urls)),

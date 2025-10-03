@@ -23,9 +23,17 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from board.views import index
+from board import views
 urlpatterns = [
+    path('', index, name='index'),
+    path("signup/", views.signup, name="signup"),
+    path('enroll/', views.enroll, name='enroll'),
+    path('signup/seeker/', views.signup_seeker, name='signup_seeker'),
+    path('signup/employer/', views.signup_employer, name='signup_employer'),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path('admin/', admin.site.urls),
     path('api/', include('board.urls')),  # This line includes all URLs from your board app
+    
 ]
