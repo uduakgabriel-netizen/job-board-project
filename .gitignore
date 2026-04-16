@@ -1,0 +1,141 @@
+# ==============================================================
+# .gitignore — Job Board API (Django + Next.js)
+# ==============================================================
+
+# ---------------------------------------------------------------
+# Environment Variables — NEVER commit secrets!
+# ---------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.env
+
+# ---------------------------------------------------------------
+# Python / Django
+# ---------------------------------------------------------------
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+wheels/
+
+# Django runtime files
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+staticfiles/
+media/
+logs/
+*.log
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Migrations (keep source, ignore compiled cache)
+# Uncomment below if you want to ignore all migration files:
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# ---------------------------------------------------------------
+# Virtual Environment
+# ---------------------------------------------------------------
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ---------------------------------------------------------------
+# Next.js / Frontend
+# ---------------------------------------------------------------
+job-board-frontend/.next/
+job-board-frontend/out/
+job-board-frontend/build/
+job-board-frontend/dist/
+job-board-frontend/node_modules/
+job-board-frontend/.env.local
+job-board-frontend/.env.development.local
+job-board-frontend/.env.test.local
+job-board-frontend/.env.production.local
+
+# TypeScript build info
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+tsconfig.node.tsbuildinfo
+
+# Vite
+dist-ssr/
+*.local
+
+# pnpm
+pnpm-debug.log*
+
+# ---------------------------------------------------------------
+# Node / npm
+# ---------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnpm-store/
+
+# ---------------------------------------------------------------
+# IDE / Editor
+# ---------------------------------------------------------------
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+
+# ---------------------------------------------------------------
+# OS Files
+# ---------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------
+# Docker
+# ---------------------------------------------------------------
+.dockerignore
+
+# ---------------------------------------------------------------
+# Deployment / CI
+# ---------------------------------------------------------------
+.vercel
+.netlify
+*.pid
+*.seed
+*.pid.lock
+
+# ---------------------------------------------------------------
+# Misc / Project-specific
+# ---------------------------------------------------------------
+.gemini/
+job_board/board/templates

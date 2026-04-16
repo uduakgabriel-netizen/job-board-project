@@ -10,9 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+<<<<<<< HEAD
 from pathlib import Path
 
 # from datetime import timedelta
+=======
+import os
+from pathlib import Path
+from datetime import timedelta
+from dotenv import load_dotenv
+import dj_database_url
+
+# Load environment variables from .env file
+load_dotenv()
+>>>>>>> 3ddb219 (frontend integration)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+<<<<<<< HEAD
 SECRET_KEY = 'django-insecure-*-t7=tss%6%2&043t$oi@*1m+h-8dm_z+pff7v&z*%qr0zd)u='
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -29,6 +41,16 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = []
+=======
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY environment variable is not set!")
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+>>>>>>> 3ddb219 (frontend integration)
 
 
 # Application definition
@@ -40,14 +62,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'board',
     'rest_framework',
+=======
+    # Third-party
+    'rest_framework',
+    'corsheaders',                                  # TASK #4: CORS
+    'django_filters',                               # TASK #8: Filtering
+    'drf_spectacular',                              # TASK #12: API Docs
+>>>>>>> 3ddb219 (frontend integration)
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.linkedin_oauth2',
+<<<<<<< HEAD
+=======
+    # Local
+    'board',
+>>>>>>> 3ddb219 (frontend integration)
 ]
 SITE_ID = 1
 
@@ -58,8 +93,14 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 MIDDLEWARE = [
+<<<<<<< HEAD
      "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.security.SecurityMiddleware',
+=======
+    'corsheaders.middleware.CorsMiddleware',             # TASK #4: CORS — must be first
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+>>>>>>> 3ddb219 (frontend integration)
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,15 +127,56 @@ TEMPLATES = [
     },
 ]
 
+<<<<<<< HEAD
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+=======
+# ──────────────────────────────────────────────────────────────
+#  Django REST Framework — TASK #7 (Pagination), #9 (Throttling),
+#  #8 (Filtering), #12 (API Docs)
+# ──────────────────────────────────────────────────────────────
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # TASK #7: Pagination
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': int(os.getenv('PAGE_SIZE', '20')),
+    # TASK #8: Default filter backends
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    # TASK #9: Rate Limiting / Throttling
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': os.getenv('THROTTLE_ANON', '100/day'),
+        'user': os.getenv('THROTTLE_USER', '1000/day'),
+    },
+    # TASK #12: API Documentation schema
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# TASK #12: drf-spectacular settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Job Board API',
+    'DESCRIPTION': 'A production-ready REST API for job listings, applications, and employer management.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+>>>>>>> 3ddb219 (frontend integration)
 }
 
 WSGI_APPLICATION = 'job_board.wsgi.application'
 
 
+<<<<<<< HEAD
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -103,6 +185,18 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+=======
+# ──────────────────────────────────────────────────────────────
+#  Database — Production ready with dj-database-url
+# ──────────────────────────────────────────────────────────────
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+>>>>>>> 3ddb219 (frontend integration)
 }
 
 
@@ -143,11 +237,19 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = 'static/'
 
+<<<<<<< HEAD
+=======
+# TASK #11: Media files (resume uploads, company logos)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+>>>>>>> 3ddb219 (frontend integration)
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+<<<<<<< HEAD
 AUTH_USER_MODEL="board.User"
 
 
@@ -160,6 +262,130 @@ AUTH_USER_MODEL="board.User"
 # }
 
 
+=======
+AUTH_USER_MODEL = "board.User"
+
+
+# ──────────────────────────────────────────────────────────────
+#  JWT Settings — configurable via environment variables
+# ──────────────────────────────────────────────────────────────
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('JWT_ACCESS_TOKEN_LIFETIME', '60'))),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.getenv('JWT_REFRESH_TOKEN_LIFETIME', '7'))),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+
+# ──────────────────────────────────────────────────────────────
+#  TASK #4: CORS Configuration
+# ──────────────────────────────────────────────────────────────
+
+CORS_ALLOWED_ORIGINS = os.getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000'
+).split(',')
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Allow all headers and methods for API consumption
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+
+# ──────────────────────────────────────────────────────────────
+#  TASK #6: Security Settings Toggle (activate when DEBUG=False)
+# ──────────────────────────────────────────────────────────────
+
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+
+
+# ──────────────────────────────────────────────────────────────
+#  TASK #10: Email Configuration
+# ──────────────────────────────────────────────────────────────
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.mailtrap.io')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@jobboard.com')
+
+
+# ──────────────────────────────────────────────────────────────
+#  TASK #14: Error Logging
+# ──────────────────────────────────────────────────────────────
+
+# Ensure logs directory exists
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(exist_ok=True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': LOGS_DIR / 'errors.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'board': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+
+# ──────────────────────────────────────────────────────────────
+#  Social Account Providers (allauth)
+# ──────────────────────────────────────────────────────────────
+
+>>>>>>> 3ddb219 (frontend integration)
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -180,5 +406,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'email-address',
         ],
     }
+<<<<<<< HEAD
 }
 SITE_ID = 1 
+=======
+}
+>>>>>>> 3ddb219 (frontend integration)
