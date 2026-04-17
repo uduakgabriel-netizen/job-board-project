@@ -1,21 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { mockJobs } from '../../../mocks/jobs';
 import { Navbar } from '../../../components/feature/Navbar';
 import { Footer } from '../../../components/feature/Footer';
+import { api } from '../../../lib/api';
 
 export function ApplicationSuccessPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const job = mockJobs.find(j => j.id === id) || mockJobs[0];
+  const [job, setJob] = useState<any>(null);
 
-  // Optional: Auto-redirect after some time
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     navigate('/applications');
-  //   }, 8000);
-  //   return () => clearTimeout(timer);
-  // }, [navigate]);
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        const res = await api.get(`/jobs/${id}/`);
+        setJob(res.data);
+      } catch { /* silent */ }
+    };
+    fetchJob();
+  }, [id]);
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-900 transition-colors duration-500 relative">
@@ -23,14 +24,9 @@ export function ApplicationSuccessPage() {
 
       {/* Cinematic Background container */}
       <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-        <img 
-          src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1920&q=80" 
-          alt="Success Background" 
-          className="w-full h-full object-cover opacity-40 scale-105 animate-pulse-slow object-center"
-        />
+        <img src="/img7.jpg" alt="Success Background" className="w-full h-full object-cover opacity-40 scale-105 animate-pulse-slow object-center" />
         <div className="absolute inset-0 bg-slate-950/80 mix-blend-multiply backdrop-blur-md"></div>
-        {/* Decorative ambient lighting */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/20 rounded-full blur-[100px]"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-500/20 rounded-full blur-[100px]"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-500/20 rounded-full blur-[100px]"></div>
       </div>
 
@@ -38,22 +34,19 @@ export function ApplicationSuccessPage() {
         <div className="w-full max-w-lg">
           <div className="bg-white/10 dark:bg-slate-900/40 backdrop-blur-2xl border border-white/20 dark:border-slate-700/50 p-10 sm:p-12 rounded-[3rem] shadow-[0_0_50px_rgba(0,0,0,0.3)] transition-colors duration-300 text-center animate-fade-in-up">
             
-            {/* Success Icon */}
             <div className="relative mx-auto w-24 h-24 mb-8">
-               <div className="absolute inset-0 bg-emerald-500 rounded-full animate-ping opacity-20"></div>
-               <div className="relative w-full h-full bg-gradient-to-tr from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/40 border-4 border-slate-900/50">
+               <div className="absolute inset-0 bg-sky-500 rounded-full animate-ping opacity-20"></div>
+               <div className="relative w-full h-full bg-gradient-to-tr from-sky-400 to-sky-600 rounded-full flex items-center justify-center shadow-lg shadow-sky-500/40 border-4 border-slate-900/50">
                  <i className="ri-check-line text-5xl text-white"></i>
                </div>
-               
-               {/* Confetti Sparks (CSS visual illusion) */}
-               <i className="ri-sparkling-fill absolute -top-2 -right-4 text-emerald-400 text-xl animate-bounce" style={{animationDelay: '100ms'}}></i>
+               <i className="ri-sparkling-fill absolute -top-2 -right-4 text-sky-400 text-xl animate-bounce" style={{animationDelay: '100ms'}}></i>
                <i className="ri-star-s-fill absolute top-1/2 -left-6 text-sky-400 justify-center animate-pulse" style={{animationDelay: '300ms'}}></i>
             </div>
 
             <h1 className="text-3xl font-bold text-white mb-4">Application Sent!</h1>
             
             <p className="text-slate-300 text-lg mb-8 leading-relaxed">
-              Thank you for applying to the <span className="font-bold text-white">{job.title}</span> position. We have successfully forwarded your portfolio to <span className="font-bold text-emerald-400">{job.company}</span>.
+              Thank you for applying to the <span className="font-bold text-white">{job?.title || 'Job'}</span> position. We have successfully forwarded your portfolio to <span className="font-bold text-sky-400">{job?.company_name || 'the company'}</span>.
             </p>
 
             <div className="bg-slate-900/50 border border-slate-700/50 rounded-2xl p-5 mb-8 text-left flex items-start gap-4">
@@ -67,20 +60,13 @@ export function ApplicationSuccessPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                to="/applications"
-                className="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all duration-300 shadow-md shadow-emerald-500/20 active:scale-95"
-              >
+              <Link to="/applications" className="px-6 py-3.5 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-xl transition-all duration-300 shadow-md shadow-sky-500/20 active:scale-95">
                 Track Status
               </Link>
-              <Link 
-                to="/jobs"
-                className="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-medium rounded-xl transition-all duration-300 active:scale-95"
-              >
+              <Link to="/jobs" className="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-medium rounded-xl transition-all duration-300 active:scale-95">
                 Find More Jobs
               </Link>
             </div>
-
           </div>
         </div>
       </main>

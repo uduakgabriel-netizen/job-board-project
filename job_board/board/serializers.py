@@ -1,89 +1,3 @@
-<<<<<<< HEAD
-
-
-from rest_framework import serializers
-from .models import User, Company, Category, Job, Application
-
-
-
-# User Serializer
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'role', 'password']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
-
-    def create(self, validated_data):
-        # Ensure password is hashed
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data.get('email'),
-            password=validated_data['password'],
-            role=validated_data.get('role', 'job_seeker')
-        )
-        return user
-
-
-
-# Company Serializer
-
-class CompanySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = ['id', 'owner', 'name', 'description', 'website', 'location']
-
-
-
-# Category Serializer
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ['id', 'name']
-
-
-class JobSerializer(serializers.ModelSerializer):
-    employer = serializers.ReadOnlyField(source="employer.username")
-
-    class Meta:
-        model = Job
-        fields = [
-            "id",
-            "title",
-            "description",
-            "location",
-            "salary",
-            "is_remote",
-            "created_at",
-            "company",
-            "category",
-            "employer",
-        ]
-        read_only_fields = ["id", "created_at", "employer"]
-
-
-# Application Serializer
-
-
-
-class ApplicationSerializer(serializers.ModelSerializer):
-    applicant = serializers.ReadOnlyField(source="applicant.username")
-
-    class Meta:
-        model = Application
-        fields = [
-            "id",
-            "job",
-            "applicant",
-            "cover_letter",
-            "status",
-            "applied_at",
-        ]
-        read_only_fields = ["id", "applicant", "status", "applied_at"]
-=======
 
 
 from rest_framework import serializers
@@ -96,19 +10,20 @@ from .models import User, Company, Category, Job, Application
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'role', 'password']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'role', 'password']
         extra_kwargs = {
             'password': {'write_only': True},
-            'role': {'read_only': True},  # Prevent clients from setting role
+            'role': {'read_only': True},
         }
 
     def create(self, validated_data):
-        # Strip role if it somehow slips through — force to job_seeker
         validated_data.pop('role', None)
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email'),
             password=validated_data['password'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', ''),
             role='job_seeker',
         )
         return user
@@ -119,10 +34,10 @@ class UserSerializer(serializers.ModelSerializer):
 class EmployerRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'role', 'password']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'role', 'password']
         extra_kwargs = {
             'password': {'write_only': True},
-            'role': {'read_only': True},  # Prevent clients from overriding
+            'role': {'read_only': True},
         }
 
     def create(self, validated_data):
@@ -131,6 +46,8 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             email=validated_data.get('email'),
             password=validated_data['password'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', ''),
             role='employer',
         )
         return user
@@ -143,6 +60,7 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ['id', 'owner', 'name', 'description', 'website', 'location']
+        read_only_fields = ['id', 'owner']
 
 
 
@@ -209,7 +127,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "applied_at",
             "updated_at",
         ]
-        read_only_fields = ["id", "applicant", "status", "applied_at", "updated_at"]
+        read_only_fields = ["id", "applicant", "applied_at", "updated_at"]
 
     def validate(self, attrs):
         """Prevent duplicate applications at the serializer level."""
@@ -223,4 +141,3 @@ class ApplicationSerializer(serializers.ModelSerializer):
                     "You have already applied for this job."
                 )
         return attrs
->>>>>>> 3ddb219 (frontend integration)

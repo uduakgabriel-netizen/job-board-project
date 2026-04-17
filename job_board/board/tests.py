@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-from django.test import APITestCase
-=======
 """
 TASK #13: Critical Tests
 
@@ -316,4 +313,3 @@ class JobUpdateProtectionTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.job.refresh_from_db()
         self.assertEqual(self.job.title, "Updated Job Title")
->>>>>>> 3ddb219 (frontend integration)

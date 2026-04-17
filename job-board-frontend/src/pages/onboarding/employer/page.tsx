@@ -49,7 +49,7 @@ export function EmployerOnboardingPage() {
       {/* Cinematic Background container */}
       <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
         <img 
-          src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1920&q=80" 
+          src="/img61.jpg" 
           alt="Cinematic Background" 
           className="w-full h-full object-cover opacity-60 scale-105 animate-pulse-slow object-center"
         />
@@ -62,7 +62,7 @@ export function EmployerOnboardingPage() {
             
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="inline-block px-3 py-1 bg-indigo-500/20 border border-indigo-400/30 rounded-full text-indigo-300 text-xs font-bold mb-4 tracking-wider">EMPLOYER ONBOARDING</div>
+              <div className="inline-block px-3 py-1 bg-sky-500/20 border border-sky-400/30 rounded-full text-sky-300 text-xs font-bold mb-4 tracking-wider">EMPLOYER ONBOARDING</div>
               <h1 className="text-3xl font-bold text-white transition-colors duration-300">Company Overview</h1>
               <p className="text-slate-300 mt-2 transition-colors duration-300">Set up your company profile to attract top talent.</p>
             
@@ -70,10 +70,10 @@ export function EmployerOnboardingPage() {
             <div className="flex items-center justify-center gap-3 mt-6">
                {[1, 2].map(i => (
                  <div key={i} className={`flex items-center ${i < 2 ? 'w-16 sm:w-32' : ''}`}>
-                   <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${step >= i ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'bg-slate-700 text-slate-500'}`}>
+                   <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${step >= i ? 'bg-sky-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'bg-slate-700 text-slate-500'}`}>
                      {step > i ? <i className="ri-check-line"></i> : i}
                    </div>
-                   {i < 2 && <div className={`flex-1 h-1 mx-2 rounded-full transition-all duration-300 ${step > i ? 'bg-indigo-500' : 'bg-slate-700'}`}></div>}
+                   {i < 2 && <div className={`flex-1 h-1 mx-2 rounded-full transition-all duration-300 ${step > i ? 'bg-sky-500' : 'bg-slate-700'}`}></div>}
                  </div>
                ))}
             </div>
@@ -87,7 +87,7 @@ export function EmployerOnboardingPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                    <div>
                      <label className="block text-sm font-medium text-slate-200 mb-1.5">Company Logo</label>
-                     <label className="block w-full h-32 border-2 border-dashed border-white/30 dark:border-slate-600 rounded-2xl flex flex-col items-center justify-center text-slate-300 hover:bg-white/10 dark:hover:bg-slate-700/50 hover:border-indigo-400 transition-colors cursor-pointer overflow-hidden relative shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+                     <label className="block w-full h-32 border-2 border-dashed border-white/30 dark:border-slate-600 rounded-2xl flex flex-col items-center justify-center text-slate-300 hover:bg-white/10 dark:hover:bg-slate-700/50 hover:border-sky-400 transition-colors cursor-pointer overflow-hidden relative shadow-[0_0_15px_rgba(255,255,255,0.05)]">
                        <input type="file" accept="image/*" className="hidden" onChange={handleLogoChange} />
                        {logoPreview ? (
                          <img src={logoPreview} alt="Preview" className="w-full h-full object-contain" />
@@ -101,7 +101,7 @@ export function EmployerOnboardingPage() {
                    </div>
                    <div>
                      <label className="block text-sm font-medium text-slate-300 mb-1.5">Cover Image (Optional)</label>
-                     <div className="w-full h-32 border-2 border-dashed border-slate-600 rounded-2xl flex flex-col items-center justify-center text-slate-400 hover:bg-slate-700/50 hover:border-indigo-400 transition-colors cursor-pointer">
+                     <div className="w-full h-32 border-2 border-dashed border-slate-600 rounded-2xl flex flex-col items-center justify-center text-slate-400 hover:bg-slate-700/50 hover:border-sky-400 transition-colors cursor-pointer">
                        <i className="ri-layout-top-line text-3xl mb-1"></i>
                        <span className="text-xs">Wide banner image</span>
                      </div>
@@ -110,26 +110,26 @@ export function EmployerOnboardingPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1.5">Company Overview</label>
-                  <textarea rows={3} required className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300 custom-scrollbar" placeholder="What does your company do?"></textarea>
+                  <textarea rows={3} required className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 custom-scrollbar" placeholder="What does your company do?"></textarea>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1.5">Company Culture</label>
-                  <textarea rows={2} required className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300 custom-scrollbar" placeholder="Describe the working environment..."></textarea>
+                  <textarea rows={2} required className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 custom-scrollbar" placeholder="Describe the working environment..."></textarea>
                 </div>
 
                 <div>
                    <label className="block text-sm font-medium text-slate-300 mb-2">Perks & Benefits</label>
                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                      {benefitsOptions.map(b => (
-                       <label key={b} className={`flex items-center gap-2 p-2 rounded-lg border cursor-pointer transition-colors ${benefits.includes(b) ? 'bg-indigo-500/10 border-indigo-500/50 text-indigo-300' : 'bg-slate-900/40 border-slate-700 text-slate-400 hover:border-slate-600'}`}>
+                       <label key={b} className={`flex items-center gap-2 p-2 rounded-lg border cursor-pointer transition-colors ${benefits.includes(b) ? 'bg-sky-500/10 border-sky-500/50 text-sky-300' : 'bg-slate-900/40 border-slate-700 text-slate-400 hover:border-slate-600'}`}>
                          <input 
                            type="checkbox" 
                            checked={benefits.includes(b)}
                            onChange={() => toggleBenefit(b)}
                            className="hidden"
                          />
-                         <div className={`w-4 h-4 rounded flex items-center justify-center border ${benefits.includes(b) ? 'bg-indigo-500 border-indigo-500' : 'border-slate-500'}`}>
+                         <div className={`w-4 h-4 rounded flex items-center justify-center border ${benefits.includes(b) ? 'bg-sky-500 border-sky-500' : 'border-slate-500'}`}>
                            {benefits.includes(b) && <i className="ri-check-line text-white text-[10px]"></i>}
                          </div>
                          <span className="text-xs font-medium">{b}</span>
@@ -146,18 +146,18 @@ export function EmployerOnboardingPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1.5">Primary Contact Person</label>
-                    <input required type="text" className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300" placeholder="e.g. John HR Manager" />
+                    <input required type="text" className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300" placeholder="e.g. John HR Manager" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1.5">Contact Phone</label>
-                    <input required type="tel" className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300" placeholder="+234 800 000 0000" />
+                    <input required type="tel" className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300" placeholder="+234 800 000 0000" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                    <div>
                      <label className="block text-sm font-medium text-slate-300 mb-1.5">Typical Response Time</label>
-                     <select className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300 appearance-none">
+                     <select className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 appearance-none">
                        <option value="24h">Within 24 hours</option>
                        <option value="48h">Within 48 hours</option>
                        <option value="1w">Within 1 week</option>
@@ -165,7 +165,7 @@ export function EmployerOnboardingPage() {
                    </div>
                    <div>
                      <label className="block text-sm font-medium text-slate-300 mb-1.5">Candidate Location Pref.</label>
-                     <select className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300 appearance-none">
+                     <select className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 appearance-none">
                        <option value="Any">Any location</option>
                        <option value="Nigeria">Nigeria only</option>
                        <option value="Lagos">Lagos only</option>
@@ -178,14 +178,14 @@ export function EmployerOnboardingPage() {
                      <h4 className="font-medium text-white">Receive Applications via Email</h4>
                      <p className="text-sm text-slate-400">We'll alert you immediately every time a candidate applies.</p>
                    </div>
-                   <div className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 ease-in-out ${receiveEmail ? 'bg-indigo-500' : 'bg-slate-600'}`}>
+                   <div className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 ease-in-out ${receiveEmail ? 'bg-sky-500' : 'bg-slate-600'}`}>
                      <div className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${receiveEmail ? 'translate-x-6' : 'translate-x-0'}`}></div>
                    </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1.5">Auto-Reply Message to Applicants</label>
-                  <textarea rows={3} className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300 custom-scrollbar" placeholder="Thank you for applying to [Company]! We have received your application..."></textarea>
+                  <textarea rows={3} className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 custom-scrollbar" placeholder="Thank you for applying to [Company]! We have received your application..."></textarea>
                 </div>
               </div>
             )}
@@ -203,7 +203,7 @@ export function EmployerOnboardingPage() {
                <button 
                  type="submit" 
                  disabled={loading}
-                 className="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-all duration-300 cursor-pointer active:scale-95 shadow-md shadow-indigo-500/20 disabled:opacity-70 flex items-center gap-2"
+                 className="px-8 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium transition-all duration-300 cursor-pointer active:scale-95 shadow-md shadow-sky-500/20 disabled:opacity-70 flex items-center gap-2"
                >
                  {loading ? <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></span> : (step === 2 ? 'Save Profile' : 'Next Step')}
                  {!loading && step < 2 && <i className="ri-arrow-right-line"></i>}

@@ -8,6 +8,7 @@ import { RegisterEmployerPage } from './pages/register/employer/page';
 import { ForgotPasswordPage } from './pages/forgot-password/page';
 import { ResetPasswordPage } from './pages/reset-password/page';
 import { VerifyEmailPage } from './pages/verify-email/page';
+import { LinkedInCallback } from './pages/auth/LinkedInCallback';
 import { EmployerPendingPage } from './pages/employer/pending/page';
 import { JobSeekerOnboardingPage } from './pages/onboarding/job-seeker/page';
 import { EmployerOnboardingPage } from './pages/onboarding/employer/page';
@@ -16,8 +17,11 @@ import { EmployerDashboard } from './pages/dashboard/employer/page';
 import { JobSeekerApplications } from './pages/applications/page';
 import { ManagedJobsPage } from './pages/employer/jobs/page';
 import { ApplicationReviewPage } from './pages/employer/applications/page';
+import { ApplicationReviewDetailsPage } from './pages/employer/applications/review/page';
 import { JobSeekerProfileSettings } from './pages/settings/profile/page';
 import { EmployerProfileSettings } from './pages/employer/profile/page';
+import { CandidatesPage } from './pages/employer/candidates/page';
+import { SettingsPage } from './pages/employer/settings/page';
 import { CreateJobPage } from './pages/employer/jobs/new/page';
 import { JobDetailsPage } from './pages/jobs/details/page';
 import { JobApplicationPage } from './pages/jobs/apply/page';
@@ -39,6 +43,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/auth/linkedin/callback" element={<LinkedInCallback />} />
         <Route path="/jobs/:id" element={<JobDetailsPage />} />
         
         {/* Protected Endpoints */}
@@ -49,7 +54,10 @@ function App() {
           <Route path="/employer/jobs" element={<ManagedJobsPage />} />
           <Route path="/employer/jobs/new" element={<CreateJobPage />} />
           <Route path="/employer/applications" element={<ApplicationReviewPage />} />
+          <Route path="/employer/applications/review" element={<ApplicationReviewDetailsPage />} />
+          <Route path="/employer/candidates" element={<CandidatesPage />} />
           <Route path="/employer/profile" element={<EmployerProfileSettings />} />
+          <Route path="/employer/settings" element={<SettingsPage />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={['job_seeker']} />}>

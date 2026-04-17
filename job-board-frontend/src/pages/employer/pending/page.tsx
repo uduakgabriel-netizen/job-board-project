@@ -62,12 +62,12 @@ export function EmployerPendingPage() {
           <div className="flex flex-col sm:flex-row gap-4">
              <Link 
                to="/"
-               className="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-all duration-300 cursor-pointer active:scale-95 shadow-md flex items-center justify-center"
+               className="w-full py-3.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-medium transition-all duration-300 cursor-pointer active:scale-95 shadow-md flex items-center justify-center"
              >
                Explore Jobs Meanwhile
              </Link>
              <a 
-               href="mailto:support@jobberman-lite.com"
+               href="mailto:support@job-board.com"
                className="w-full py-3.5 rounded-xl border border-slate-600 hover:bg-slate-700 text-white font-medium transition-all duration-300 cursor-pointer active:scale-95 flex items-center justify-center gap-2"
              >
                <i className="ri-customer-service-2-line"></i> Support

@@ -39,11 +39,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-<<<<<<< HEAD
-    
-    ## i have some error here please check it later
-=======
->>>>>>> 3ddb219 (frontend integration)
 
 
 
@@ -58,11 +53,8 @@ class Job(models.Model):
     location = models.CharField(max_length=255)
     salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_remote = models.BooleanField(default=False)
-<<<<<<< HEAD
-=======
     is_approved = models.BooleanField(default=False)
     is_live = models.BooleanField(default=False)
->>>>>>> 3ddb219 (frontend integration)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -83,22 +75,15 @@ class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="applications")
     applicant = models.ForeignKey(User, on_delete=models.CASCADE, related_name="applications")
     cover_letter = models.TextField(blank=True)
-<<<<<<< HEAD
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
-    applied_at = models.DateTimeField(auto_now_add=True)
-=======
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)  # TASK #11
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     applied_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
->>>>>>> 3ddb219 (frontend integration)
 
     class Meta:
         unique_together = ('job', 'applicant')  # prevent applying twice
 
     def __str__(self):
         return f"{self.applicant.username} → {self.job.title} ({self.status})"
-<<<<<<< HEAD
-=======
 
->>>>>>> 3ddb219 (frontend integration)
+

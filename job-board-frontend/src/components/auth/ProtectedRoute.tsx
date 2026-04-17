@@ -1,22 +1,22 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { authService } from '../../lib/api';
 
 interface ProtectedRouteProps {
-  allowedRoles?: Array<'job_seeker' | 'employer' | 'admin'>;
+  allowedRoles: string[];
 }
 
 export function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
-  // In a real app with JWT layout, we'd pull these from our context.
-  const isAuthenticated = true; // localStorage.getItem('access_token') !== null;
-  const currentRole = 'job_seeker'; // Parse JWT to determin role
+  const isAuthenticated = authService.isAuthenticated();
+  const currentRole = authService.getRole();
 
   if (!isAuthenticated) {
-    // Optionally redirect and prompt login
     return <Navigate to="/login" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(currentRole as any)) {
-    // Unauthorized
-    return <Navigate to="/" replace />;
+  if (currentRole && !allowedRoles.includes(currentRole)) {
+    // Redirect to their own dashboard if role mismatch
+    if (currentRole === 'employer') return <Navigate to="/dashboard/employer" replace />;
+    return <Navigate to="/dashboard/job-seeker" replace />;
   }
 
   return <Outlet />;

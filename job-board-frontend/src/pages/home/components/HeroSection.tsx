@@ -19,20 +19,18 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-[92vh] flex items-center justify-center bg-white dark:bg-slate-950 px-6 pt-24 pb-12 overflow-hidden transition-colors duration-300">
-      {/* Decorative Blobs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-sky-100 dark:bg-sky-900/30 blur-3xl rounded-full animate-pulse transition-colors duration-300 pointer-events-none" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-100 dark:bg-blue-900/20 blur-3xl rounded-full animate-pulse transition-colors duration-300 pointer-events-none" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-100 dark:bg-cyan-900/20 blur-3xl rounded-full animate-pulse transition-colors duration-300 pointer-events-none" style={{ animationDelay: '2s' }} />
-      
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9IiM2NDc0OGIiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PC9zdmc+')] opacity-[0.03] dark:opacity-[0.05] pointer-events-none transition-opacity duration-300" />
+      {/* Professional Cinematic Background */}
+      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+        <img 
+          src="/img1.jpg" 
+          alt="Professional Team" 
+          className="w-full h-full object-cover opacity-25 dark:opacity-40 scale-105"
+        />
+        <div className="absolute inset-0 bg-slate-900/40 mix-blend-multiply backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white dark:to-slate-950"></div>
+      </div>
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-50/80 dark:bg-sky-900/40 backdrop-blur-sm border border-sky-200 dark:border-sky-800/50 mb-8 transition-all duration-300 cursor-pointer hover:bg-sky-100/80 dark:hover:bg-sky-900/60 active:scale-95">
-          <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
-          <span className="text-sm font-medium text-sky-700 dark:text-sky-300">Nigeria's #1 Job Platform</span>
-        </div>
+      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-white/50 dark:border-slate-700/50 p-8 md:p-14 rounded-[3rem] shadow-2xl">
 
         {/* H1 */}
         <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-white tracking-tight mb-6 transition-colors duration-300">

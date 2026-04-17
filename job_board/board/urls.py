@@ -2,16 +2,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    Job,
     JobViewSet,
     ApplicationViewSet,
     CompanyViewSet,
     CategoryViewSet,
     RegisterView,
-<<<<<<< HEAD
-=======
     EmployerRegisterView,
->>>>>>> 3ddb219 (frontend integration)
     LoginView,
     LogoutView,
     ProfileView,
@@ -33,10 +29,7 @@ urlpatterns = [
     # Auth endpoints
     
     path('auth/register/', RegisterView.as_view(), name='register'),
-<<<<<<< HEAD
-=======
     path('auth/register/employer/', EmployerRegisterView.as_view(), name='register-employer'),
->>>>>>> 3ddb219 (frontend integration)
     path('auth/login/', LoginView.as_view(), name='login'),
     path('auth/logout/', LogoutView.as_view(), name='logout'),
     path('auth/profile/', ProfileView.as_view(), name='profile'),

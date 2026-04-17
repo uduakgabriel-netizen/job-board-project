@@ -11,7 +11,7 @@ export function Footer() {
               J
             </div>
             <span className="font-bold text-xl text-slate-900 dark:text-white transition-colors duration-300">
-              Jobberman<span className="text-sky-500">-Lite</span>
+              Job<span className="text-sky-500">-Board</span>
             </span>
           </Link>
           <p className="text-slate-500 dark:text-slate-400 transition-colors duration-300 leading-relaxed">
@@ -76,7 +76,7 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 border-t border-slate-100 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 transition-colors duration-300">
         <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors duration-300">
-          © {new Date().getFullYear()} Jobberman-Lite. All rights reserved.
+          © {new Date().getFullYear()} Job-Board. All rights reserved.
         </p>
         <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm transition-colors duration-300">
           <i className="ri-map-pin-line text-sky-500"></i>

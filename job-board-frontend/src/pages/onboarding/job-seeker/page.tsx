@@ -55,7 +55,7 @@ export function JobSeekerOnboardingPage() {
       {/* Cinematic Background container */}
       <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
         <img 
-          src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1920&q=80" 
+          src="/img6.jpg" 
           alt="Cinematic Background" 
           className="w-full h-full object-cover opacity-60 scale-105 animate-pulse-slow object-center"
         />

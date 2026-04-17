@@ -10,7 +10,7 @@ export function AccountTypeSelectionPage() {
       {/* Cinematic Background container */}
       <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
         <img 
-          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1920&q=80" 
+          src="/img5.jpg" 
           alt="Cinematic Background" 
           className="w-full h-full object-cover opacity-60 scale-105 animate-pulse-slow object-center"
         />
@@ -22,7 +22,7 @@ export function AccountTypeSelectionPage() {
         <div className="w-full max-w-4xl bg-white/10 dark:bg-slate-900/40 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 shadow-2xl p-8 md:p-12 rounded-[2.5rem] text-center transform transition-all duration-500 hover:shadow-cyan-500/10">
            
            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight drop-shadow-md">
-             Join Jobberman-Lite
+             Join Job-Board
            </h1>
            <p className="text-lg md:text-xl text-slate-300 font-medium mb-12 max-w-2xl mx-auto drop-shadow">
              Select your account type to proceed. Whether you are looking for your dream job or searching for top talent, we have got you covered.

@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../hooks/useTheme';
+import { authService } from '../../lib/api';
 
 interface NavbarProps {
   isAuthenticated?: boolean;
   userType?: 'job_seeker' | 'employer' | null;
 }
 
-export function Navbar({ isAuthenticated = false, userType = null }: NavbarProps) {
+export function Navbar({ isAuthenticated: isAuthProp, userType: userTypeProp }: NavbarProps) {
+  // Use real auth state, falling back to props for backward compat
+  const isAuthenticated = isAuthProp !== undefined ? isAuthProp : authService.isAuthenticated();
+  const userType = userTypeProp || authService.getRole() as any;
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,7 +38,7 @@ export function Navbar({ isAuthenticated = false, userType = null }: NavbarProps
             J
           </div>
           <span className="font-bold text-xl text-slate-900 dark:text-white transition-colors duration-300">
-            Jobberman<span className="text-sky-500">-Lite</span>
+            Job<span className="text-sky-500">-Board</span>
           </span>
         </Link>
 
@@ -45,9 +49,6 @@ export function Navbar({ isAuthenticated = false, userType = null }: NavbarProps
           </Link>
           <Link to="/companies" className="text-slate-500 dark:text-slate-400 font-medium hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300 cursor-pointer">
             Companies
-          </Link>
-          <Link to="/pricing" className="text-slate-500 dark:text-slate-400 font-medium hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300 cursor-pointer">
-            Pricing
           </Link>
         </div>
 
@@ -78,9 +79,9 @@ export function Navbar({ isAuthenticated = false, userType = null }: NavbarProps
                   <Link to={userType === 'employer' ? "/employer/profile" : "/settings/profile"} className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                     Profile Settings
                   </Link>
-                  <Link to="/logout" className="block px-4 py-2 text-sm text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10">
+                  <button onClick={() => { authService.logout(); window.location.href='/'; }} className="block w-full text-left px-4 py-2 text-sm text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 cursor-pointer">
                     Sign Out
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -122,9 +123,6 @@ export function Navbar({ isAuthenticated = false, userType = null }: NavbarProps
           <Link to="/companies" className="text-slate-500 dark:text-slate-400 font-medium py-2 hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300 cursor-pointer">
             Companies
           </Link>
-          <Link to="/pricing" className="text-slate-500 dark:text-slate-400 font-medium py-2 hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300 cursor-pointer">
-            Pricing
-          </Link>
           <hr className="border-slate-100 dark:border-slate-700/50 transition-colors duration-300" />
           {isAuthenticated ? (
             <>
@@ -134,9 +132,9 @@ export function Navbar({ isAuthenticated = false, userType = null }: NavbarProps
               <Link to={userType === 'employer' ? "/employer/profile" : "/settings/profile"} className="text-slate-500 dark:text-slate-400 font-medium py-2">
                 Profile Settings
               </Link>
-              <Link to="/logout" className="text-rose-500 font-medium py-2">
+              <button onClick={() => { authService.logout(); window.location.href='/'; }} className="text-left text-rose-500 font-medium py-2 cursor-pointer">
                 Sign Out
-              </Link>
+              </button>
             </>
           ) : (
             <>

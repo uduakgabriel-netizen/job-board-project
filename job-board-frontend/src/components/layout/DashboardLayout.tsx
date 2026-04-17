@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar } from '../feature/Navbar';
 import { Footer } from '../feature/Footer';
+import { authService } from '../../lib/api';
 
 interface SidebarItem {
   name: string;
@@ -36,6 +37,7 @@ export function DashboardLayout({ children, userType, userName, userEmail, userS
     { name: 'My Jobs', path: '/employer/jobs', icon: 'ri-briefcase-line' },
     { name: 'Post a Job', path: '/employer/jobs/new', icon: 'ri-add-line' },
     { name: 'Applications', path: '/employer/applications', icon: 'ri-file-list-3-line' },
+    { name: 'Review Applications', path: '/employer/applications/review', icon: 'ri-mail-send-line' },
     { name: 'Candidates', path: '/employer/candidates', icon: 'ri-group-line' },
     { name: 'Company Profile', path: '/employer/profile', icon: 'ri-building-line' },
     { name: 'Settings', path: '/employer/settings', icon: 'ri-settings-4-line' },
@@ -106,9 +108,9 @@ export function DashboardLayout({ children, userType, userName, userEmail, userS
           </div>
 
           <div className="p-4 border-t border-slate-100 dark:border-slate-800">
-             <Link to="/logout" className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 font-medium text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-600">
+             <button onClick={() => { authService.logout(); window.location.href='/'; }} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 font-medium text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-600 cursor-pointer">
                 <i className="ri-logout-box-r-line text-lg"></i> Logout
-             </Link>
+             </button>
           </div>
         </div>
 
@@ -116,7 +118,7 @@ export function DashboardLayout({ children, userType, userName, userEmail, userS
         <div className="flex-1 w-full min-w-0">
           {/* Mobile Sidebar Toggle Button */}
           <div className="lg:hidden mb-4 flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
-             <span className="font-bold text-slate-900 dark:text-white">Dashboard Dashboard</span>
+             <span className="font-bold text-slate-900 dark:text-white">{userType === 'employer' ? 'Employer Dashboard' : 'My Dashboard'}</span>
              <button onClick={() => setSidebarOpen(true)} className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300">
                <i className="ri-menu-2-line text-xl"></i>
              </button>

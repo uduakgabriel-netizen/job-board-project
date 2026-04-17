@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { Job } from '../../../mocks/jobs';
 
 interface JobCardProps {
-  job: Job;
+  job: any;
 }
 
 export function JobCard({ job }: JobCardProps) {
@@ -18,6 +17,14 @@ export function JobCard({ job }: JobCardProps) {
     }
   };
 
+  const timeAgo = (d: string) => {
+    const diff = Date.now() - new Date(d).getTime();
+    const days = Math.floor(diff / 86400000);
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Yesterday';
+    return `${days}d ago`;
+  };
+
   return (
     <div 
       onClick={() => navigate(`/jobs/${job.id}`)}
@@ -25,12 +32,14 @@ export function JobCard({ job }: JobCardProps) {
     >
       {/* Top Row */}
       <div className="flex items-start justify-between mb-6">
-        <div className="w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-500 transition-colors duration-300 text-2xl group-hover:text-sky-500">
-          <i className={job.logo}></i>
+        <div className="w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-sky-500 dark:text-sky-500 transition-colors duration-300 text-2xl group-hover:scale-105">
+          <i className="ri-briefcase-line"></i>
         </div>
-        <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeStyle(job.type)} transition-colors duration-300`}>
-          {job.type}
-        </div>
+        {job.is_remote && (
+          <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeStyle('Remote')} transition-colors duration-300`}>
+            Remote
+          </div>
+        )}
       </div>
 
       {/* Body */}
@@ -41,32 +50,20 @@ export function JobCard({ job }: JobCardProps) {
         <div className="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6 transition-colors duration-300">
           <div className="flex items-center gap-2">
             <i className="ri-building-4-line text-lg"></i>
-            <span>{job.company}</span>
+            <span>{job.company_name || 'Company'}</span>
           </div>
           <div className="flex items-center gap-2">
             <i className="ri-map-pin-2-line text-lg"></i>
             <span>{job.location}</span>
           </div>
         </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {job.tags.map((tag, i) => (
-            <span 
-              key={i} 
-              className="px-3 py-1 rounded-lg text-xs font-medium bg-sky-50 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-800/50 transition-colors duration-300"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
       </div>
 
       {/* Footer */}
       <div className="pt-4 border-t border-slate-100 dark:border-slate-700/50 flex items-center justify-between transition-colors duration-300 mt-auto">
-        <span className="font-bold text-sky-500">{job.salary}</span>
+        <span className="font-bold text-sky-500">{job.salary ? `₦${Number(job.salary).toLocaleString()}` : 'Negotiable'}</span>
         <span className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
-          <i className="ri-time-line"></i> {job.postedAt}
+          <i className="ri-time-line"></i> {timeAgo(job.created_at)}
         </span>
       </div>
     </div>

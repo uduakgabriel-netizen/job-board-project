@@ -14,8 +14,8 @@ type AuthLayoutProps = {
 export function AuthLayout({ children, themeType = 'job-seeker', headline, subheadline, features, testimonials }: AuthLayoutProps) {
   // Select premium Unsplash images matching the context perfectly
   const bgImage = themeType === 'employer' 
-    ? 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80' // modern office interior
-    : 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80'; // collaborative diverse team
+    ? '/img4.jpg' // employer specific image
+    : '/img2.jpg'; // generic seeker image
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors duration-300 relative overflow-hidden">

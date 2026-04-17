@@ -1,143 +1,129 @@
-import { DashboardLayout } from '../../../components/layout/DashboardLayout';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { DashboardLayout } from '../../../components/layout/DashboardLayout';
+import { api, authService } from '../../../lib/api';
 
 export function EmployerDashboard() {
+  const user = authService.getUser();
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [applications, setApplications] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [jobsRes, appsRes] = await Promise.all([
+          api.get('/jobs/'),
+          api.get('/applications/'),
+        ]);
+        setJobs(jobsRes.data.results || jobsRes.data);
+        setApplications(appsRes.data.results || appsRes.data);
+      } catch (err) {
+        console.error('Dashboard fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const activeJobs = jobs.length;
+  const totalApplications = applications.length;
+  const reviewedApps = applications.filter((a: any) => a.status === 'reviewed').length;
+  const acceptedApps = applications.filter((a: any) => a.status === 'accepted').length;
+
+  const timeAgo = (d: string) => {
+    const diff = Date.now() - new Date(d).getTime();
+    const days = Math.floor(diff / 86400000);
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Yesterday';
+    return `${days}d ago`;
+  };
+
+  const statusColor = (s: string) => {
+    switch (s) {
+      case 'pending': return 'bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400';
+      case 'reviewed': return 'bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400';
+      case 'accepted': return 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400';
+      case 'rejected': return 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400';
+      default: return 'bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-400';
+    }
+  };
+
   return (
-    <DashboardLayout 
-      userType="employer"
-      userName="Tech Corp"
-      userEmail="hr@techcorp.com"
-      userSubtitle="Technology • 51-200 employees"
-    >
-      {/* Welcome Section */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-800 mb-6 shadow-md shadow-slate-200/50 dark:shadow-none flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <div className="inline-block px-3 py-1 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 font-semibold text-xs rounded-full mb-3 flex items-center gap-1.5 w-fit">
-            <i className="ri-shield-check-line text-sm"></i> Verified Company
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">Welcome back, Tech Corp!</h1>
-          <p className="text-slate-500 dark:text-slate-400">Manage your active listings and review top candidates.</p>
-        </div>
-        <div className="flex gap-3">
-          <Link to="/employer/applications" className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-medium transition-colors cursor-pointer text-center">
-            View Applications
-          </Link>
-          <Link to="/employer/jobs/new" className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors cursor-pointer flex items-center gap-2 shadow-md shadow-indigo-500/20 text-center">
-            <i className="ri-add-line"></i> Post a Job
-          </Link>
-        </div>
+    <DashboardLayout userType="employer" userName={user?.username || 'Employer'} userEmail={user?.email || ''} userSubtitle="Employer Dashboard">
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">Welcome back, {user?.username}!</h1>
+        <p className="text-slate-500 text-sm mt-1">Here's what's happening with your job postings.</p>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {[
-          { label: 'Active Jobs', value: '12', trend: '↑ 2 from last week', trendColor: 'text-emerald-500', icon: 'ri-briefcase-line', bg: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-500' },
-          { label: 'Applications', value: '347', trend: '↑ 45 from last week', trendColor: 'text-emerald-500', icon: 'ri-file-user-line', bg: 'bg-sky-50 dark:bg-sky-900/30 text-sky-500' },
-          { label: 'Views', value: '2.5k', trend: '↑ 12% from last month', trendColor: 'text-emerald-500', icon: 'ri-eye-line', bg: 'bg-purple-50 dark:bg-purple-900/30 text-purple-500' },
-          { label: 'Hired', value: '8', trend: '↑ 3 from last month', trendColor: 'text-emerald-500', icon: 'ri-group-line', bg: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500' },
-        ].map((metric, i) => (
-          <div key={i} className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-none flex flex-col">
-            <div className={`w-10 h-10 rounded-lg ${metric.bg} flex items-center justify-center text-xl mb-4`}>
-              <i className={metric.icon}></i>
+      {/* Metrics */}
+      {loading ? (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {[1,2,3,4].map(i => <div key={i} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 animate-pulse"><div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-1/3 mb-2"></div><div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-2/3"></div></div>)}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {[
+            { label: 'Active Jobs', value: activeJobs, icon: 'ri-briefcase-line', color: 'text-sky-500' },
+            { label: 'Applications', value: totalApplications, icon: 'ri-file-list-3-line', color: 'text-emerald-500' },
+            { label: 'Reviewed', value: reviewedApps, icon: 'ri-eye-line', color: 'text-amber-500' },
+            { label: 'Hired', value: acceptedApps, icon: 'ri-user-star-line', color: 'text-violet-500' },
+          ].map(m => (
+            <div key={m.label} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-3xl font-bold text-slate-900 dark:text-white">{m.value}</span>
+                <div className={`w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center ${m.color} text-xl`}><i className={m.icon}></i></div>
+              </div>
+              <p className="text-sm text-slate-500">{m.label}</p>
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">{metric.label}</p>
-            <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{metric.value}</h3>
-            <p className={`text-xs font-semibold ${metric.trendColor}`}>{metric.trend}</p>
-          </div>
+          ))}
+        </div>
+      )}
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {[
+          { label: 'Post a Job', path: '/employer/jobs/new', icon: 'ri-add-circle-line', color: 'bg-sky-500' },
+          { label: 'My Jobs', path: '/employer/jobs', icon: 'ri-briefcase-line', color: 'bg-emerald-500' },
+          { label: 'Company Profile', path: '/employer/profile', icon: 'ri-building-line', color: 'bg-violet-500' },
+          { label: 'Applications', path: '/employer/applications', icon: 'ri-file-list-3-line', color: 'bg-amber-500' },
+        ].map(a => (
+          <Link key={a.label} to={a.path} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-sky-300 dark:hover:border-sky-700 transition-all group text-center shadow-sm">
+            <div className={`w-12 h-12 ${a.color} rounded-xl flex items-center justify-center text-white text-xl mx-auto mb-3`}><i className={a.icon}></i></div>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-sky-500 transition-colors">{a.label}</span>
+          </Link>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Applications */}
-        <div className="lg:col-span-2">
-          <div className="flex justify-between items-end mb-4">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Recent Applications</h2>
-            <Link to="/employer/applications" className="text-indigo-500 hover:text-indigo-600 font-medium text-sm">View All</Link>
-          </div>
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-none overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
-                    <th className="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Applicant</th>
-                    <th className="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Job</th>
-                    <th className="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Applied</th>
-                    <th className="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Status</th>
-                    <th className="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300 text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-slate-100 dark:border-slate-800/60 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex flex-shrink-0 items-center justify-center text-sm font-bold text-slate-600 dark:text-slate-300">JD</div>
-                        <span className="font-semibold text-slate-900 dark:text-white block whitespace-nowrap">John Doe</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Frontend Dev</td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Today</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-yellow-50 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400 rounded-full text-xs font-semibold">Pending</span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="text-indigo-500 hover:text-indigo-600 font-medium text-sm">Review</button>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex flex-shrink-0 items-center justify-center text-sm font-bold text-slate-600 dark:text-slate-300">JS</div>
-                        <span className="font-semibold text-slate-900 dark:text-white block whitespace-nowrap">Jane Smith</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Backend Dev</td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">Yesterday</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs font-semibold">Reviewed</span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="text-indigo-500 hover:text-indigo-600 font-medium text-sm">Review</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+      {/* Recent Applications */}
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+          <h2 className="font-bold text-slate-900 dark:text-white text-lg">Recent Applications</h2>
+          <Link to="/employer/applications" className="text-sky-500 hover:text-sky-600 text-sm font-medium">View All →</Link>
         </div>
-
-        {/* Top Performing Jobs */}
-        <div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Top Performing Jobs</h2>
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-none p-6 space-y-6">
-             <div>
-               <div className="flex justify-between items-center mb-2">
-                 <span className="font-semibold text-slate-900 dark:text-white text-sm">Frontend Developer</span>
-                 <span className="text-xs text-slate-500 font-medium">120 apps</span>
-               </div>
-               <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                 <div className="bg-indigo-500 h-full rounded-full" style={{ width: '85%' }}></div>
-               </div>
-             </div>
-             <div>
-               <div className="flex justify-between items-center mb-2">
-                 <span className="font-semibold text-slate-900 dark:text-white text-sm">UI/UX Designer</span>
-                 <span className="text-xs text-slate-500 font-medium">85 apps</span>
-               </div>
-               <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                 <div className="bg-sky-500 h-full rounded-full" style={{ width: '60%' }}></div>
-               </div>
-             </div>
-             <div>
-               <div className="flex justify-between items-center mb-2">
-                 <span className="font-semibold text-slate-900 dark:text-white text-sm">Product Manager</span>
-                 <span className="text-xs text-slate-500 font-medium">42 apps</span>
-               </div>
-               <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                 <div className="bg-emerald-500 h-full rounded-full" style={{ width: '30%' }}></div>
-               </div>
-             </div>
+        {loading ? (
+          <div className="p-6 space-y-4">{[1,2,3].map(i => <div key={i} className="h-12 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse"></div>)}</div>
+        ) : applications.length === 0 ? (
+          <div className="p-12 text-center"><i className="ri-inbox-line text-4xl text-slate-300 dark:text-slate-600 mb-3 block"></i><p className="text-slate-500">No applications yet. Post a job to start receiving applications!</p></div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead><tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800"><th className="px-6 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300">Applicant</th><th className="px-6 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300">Job</th><th className="px-6 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300">Date</th><th className="px-6 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300">Status</th></tr></thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                {applications.slice(0, 5).map((app: any) => (
+                  <tr key={app.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">{app.applicant}</td>
+                    <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{app.job_title || `Job #${app.job}`}</td>
+                    <td className="px-6 py-4 text-sm text-slate-500">{timeAgo(app.applied_at)}</td>
+                    <td className="px-6 py-4"><span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusColor(app.status)}`}>{app.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
+        )}
       </div>
     </DashboardLayout>
   );

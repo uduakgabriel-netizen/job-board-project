@@ -1,11 +1,38 @@
 import { useEffect, useState, useRef } from 'react';
 
 const stats = [
-  { value: '2,500+', label: 'Active Jobs', suffix: 'Jobs', icon: 'ri-briefcase-4-line' },
-  { value: '300+', label: 'Top Companies', suffix: 'Hiring', icon: 'ri-building-2-line' },
-  { value: '10,000+', label: 'Candidates Hired', suffix: 'Hired', icon: 'ri-user-star-line' },
-  { value: '36', label: 'States Covered', suffix: 'States', icon: 'ri-map-2-line' },
+  { numericValue: 2500, suffix: '+', label: 'Active Jobs', icon: 'ri-briefcase-4-line' },
+  { numericValue: 300, suffix: '+', label: 'Top Companies', icon: 'ri-building-2-line' },
+  { numericValue: 10000, suffix: '+', label: 'Candidates Hired', icon: 'ri-user-star-line' },
+  { numericValue: 36, suffix: '', label: 'States Covered', icon: 'ri-map-2-line' },
 ];
+
+function CountUpNumber({ end, suffix, start }: { end: number, suffix: string, start: boolean }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!start) return;
+
+    let startTimestamp: number | null = null;
+    const duration = 3000; // 3 seconds
+
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      // easeOutExpo easing function for smoother deceleration
+      const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setCount(Math.floor(easeProgress * end));
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+
+    window.requestAnimationFrame(step);
+  }, [start, end]);
+
+  return <>{count.toLocaleString()}{suffix}</>;
+}
 
 export function StatsBar() {
   const [isVisible, setIsVisible] = useState(false);
@@ -40,7 +67,7 @@ export function StatsBar() {
                   <i className={`${stat.icon} text-3xl`}></i>
                 </div>
                 <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">
-                  {stat.value}
+                  <CountUpNumber end={stat.numericValue} suffix={stat.suffix} start={isVisible} />
                 </h3>
                 <p className="text-lg text-slate-500 dark:text-slate-400 transition-colors duration-300">
                   {stat.label}

@@ -24,7 +24,7 @@ export function CTASection() {
           </h2>
 
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-10 transition-colors duration-300">
-            Join thousands of professionals who have found their next career step through Jobberman-Lite. Create an account, build your profile, and start applying today.
+            Join thousands of professionals who have found their next career step through Job-Board. Create an account, build your profile, and start applying today.
           </p>
 
           {/* Buttons */}
