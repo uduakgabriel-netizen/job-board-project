@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.linkedin_oauth2',
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
+    'rest_auth',
+    'rest_auth.registration',
     # Local
     'board',
 ]
